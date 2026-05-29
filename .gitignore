@@ -1,0 +1,14 @@
+# Секреты — не заливать на GitHub
+.env
+
+# Зависимости — ставятся через npm install
+app/node_modules/
+
+# Старый SQLite (не используется)
+app/data/
+*.db
+
+# Системное
+.DS_Store
+Thumbs.db
+*.log

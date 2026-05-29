@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>ER-диаграмма — ООО «Зелёный Сад»</title>
+  <style>
+    @page { size: A4 landscape; margin: 12mm; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f8faf5; margin: 0; padding: 24px; color: #1a2e1a; }
+    h1 { color: #22c55e; font-size: 22px; margin-bottom: 8px; }
+    .hint { font-size: 13px; color: #666; margin-bottom: 20px; }
+    .diagram { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1200px; }
+    .entity { background: #fff; border: 2px solid #8b7355; border-radius: 8px; overflow: hidden; break-inside: avoid; }
+    .entity h2 { margin: 0; padding: 8px 12px; background: #22c55e; color: #fff; font-size: 14px; }
+    .entity ul { list-style: none; margin: 0; padding: 8px 12px; font-size: 11px; line-height: 1.6; }
+    .pk { color: #b45309; font-weight: bold; }
+    .fk { color: #0369a1; }
+    .relations { margin-top: 24px; font-size: 13px; line-height: 2; background: #fff; padding: 16px; border-radius: 8px; border: 1px solid #ddd; }
+    @media print { .hint, .no-print { display: none; } body { padding: 0; } }
+  </style>
+</head>
+<body>
+  <h1>ER-диаграмма информационной системы</h1>
+  <p class="hint">Для сдачи: Ctrl+P → «Сохранить как PDF». Включите все таблицы, связи, PK и FK.</p>
+  <button class="no-print" onclick="window.print()" style="padding:10px 20px;background:#22c55e;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-bottom:16px;">Печать / PDF</button>
+
+  <div class="diagram">
+    <div class="entity"><h2>roles</h2><ul>
+      <li><span class="pk">PK</span> id INT</li>
+      <li>role_name VARCHAR(20) UNIQUE</li>
+    </ul></div>
+    <div class="entity"><h2>users</h2><ul>
+      <li><span class="pk">PK</span> id INT</li>
+      <li>login VARCHAR(50) UNIQUE</li>
+      <li>password_hash VARCHAR(255)</li>
+      <li><span class="fk">FK</span> role_id → roles.id</li>
+      <li>full_name, phone, created_at</li>
+    </ul></div>
+    <div class="entity"><h2>growing_conditions</h2><ul>
+      <li><span class="pk">PK</span> id INT</li>
+      <li>climate_zone, soil_type</li>
+      <li>sunlight, watering</li>
+    </ul></div>
+    <div class="entity"><h2>products</h2><ul>
+      <li><span class="pk">PK</span> id INT</li>
+      <li>article UNIQUE, name, type ENUM</li>
+      <li>brand, price, quantity</li>
+      <li>category, description, image_path</li>
+      <li>planting_season, created_at</li>
+    </ul></div>
+    <div class="entity"><h2>product_condition_link</h2><ul>
+      <li><span class="pk">PK</span> product_id</li>
+      <li><span class="pk">PK</span> condition_id</li>
+      <li><span class="fk">FK</span> → products, growing_conditions</li>
+      <li>N:M связь</li>
+    </ul></div>
+    <div class="entity"><h2>orders</h2><ul>
+      <li><span class="pk">PK</span> id INT</li>
+      <li><span class="fk">FK</span> user_id → users.id</li>
+      <li>order_date, status ENUM</li>
+      <li>total_amount, delivery_address</li>
+      <li>phone, created_at</li>
+    </ul></div>
+    <div class="entity"><h2>order_items</h2><ul>
+      <li><span class="pk">PK</span> id INT</li>
+      <li><span class="fk">FK</span> order_id → orders.id</li>
+      <li><span class="fk">FK</span> product_id → products.id</li>
+      <li>count, price_at_order</li>
+    </ul></div>
+  </div>
+
+  <div class="relations">
+    <strong>Связи:</strong><br>
+    roles (1) — (N) users &nbsp;|&nbsp;
+    users (1) — (N) orders &nbsp;|&nbsp;
+    orders (1) — (N) order_items &nbsp;|&nbsp;
+    products (1) — (N) order_items &nbsp;|&nbsp;
+    products (N) — (M) growing_conditions через product_condition_link
+  </div>
+</body>
+</html>

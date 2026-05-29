@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Каталог — прототип</title>
+  <link rel="stylesheet" href="css/prototype.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo"><img src="images/logo.png" alt="ООО «Зелёный Сад»" class="logo-img"></div>
+    <nav class="nav-links"><a href="catalog.html">Каталог</a><a href="orders.html">Заказы</a><a href="product-form.html">+ Товар</a><a href="login.html">Выход</a></nav>
+  </header>
+  <div class="screen">
+    <h1>Каталог растений и семян</h1>
+    <p style="color:#666;font-size:14px">Менеджер/Админ: панель поиска и фильтров ниже. Гость/Клиент — только карточки.</p>
+    <div class="card" style="margin-bottom:20px;display:flex;gap:8px;flex-wrap:wrap">
+      <input placeholder="Поиск..." style="flex:1;padding:8px;border-radius:8px;border:2px solid #e5e7eb">
+      <select><option>Категория</option></select><select><option>Климат</option></select>
+      <button class="btn btn-primary">Применить</button>
+    </div>
+    <div class="grid">
+      <article class="product-card"><div class="img">🌱</div><div class="body"><h3>Роза чайная</h3><p>890 ₽ · Остаток: 15</p><p>🌱 💧 ☀️ Умеренный полив</p><a href="product-form.html">Редактировать →</a></div></article>
+      <article class="product-card"><div class="img">🌻</div><div class="body"><h3>Томаты «Бычье сердце»</h3><p>129,50 ₽</p><p>🌱 💧 ☀️</p></div></article>
+    </div>
+    <p style="margin-top:24px"><a href="login.html">← Вход</a></p>
+  </div>
+</body>
+</html>

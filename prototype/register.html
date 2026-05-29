@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Регистрация — прототип</title>
+  <link rel="stylesheet" href="css/prototype.css">
+</head>
+<body>
+  <header class="header"><div class="logo"><img src="images/logo.png" alt="ООО «Зелёный Сад»" class="logo-img"></div></header>
+  <div class="screen">
+    <div class="card" style="max-width:440px;margin:32px auto">
+      <h1>Регистрация</h1>
+      <div class="field"><label>Логин</label><input></div>
+      <div class="field"><label>Пароль</label><input type="password"></div>
+      <div class="field"><label>ФИО</label><input></div>
+      <div class="captcha"><strong>CAPTCHA:</strong> <span style="font-size:22px;font-family:Nunito">7 + 3 = ?</span><input style="width:70px" placeholder="10"></div>
+      <div class="field error"><label>Пример ошибки</label><input><span class="msg">Неверная CAPTCHA</span></div>
+      <button class="btn btn-primary" style="width:100%">Зарегистрироваться</button>
+      <p style="margin-top:12px"><a href="login.html">← К входу</a> · <a href="catalog.html">После регистрации → Каталог</a></p>
+    </div>
+  </div>
+</body>
+</html>
