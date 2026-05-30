@@ -1,10 +1,16 @@
+/**
+ * Работа с PostgreSQL.
+ * На экзамене данные меняют в database/seed.sql, затем: npm run db:reset
+ */
 const fs = require('fs');
 const path = require('path');
+// .env лежит в КОРНЕ проекта (рядом с config.js), не в папке app
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 const crypto = require('crypto');
 const { Pool } = require('pg');
 const config = require('../config');
 
+// SQL-скрипты: структура таблиц и тестовые данные
 const SCHEMA = path.join(__dirname, '..', 'database', 'schema.sql');
 const SEED = path.join(__dirname, '..', 'database', 'seed.sql');
 
@@ -23,6 +29,7 @@ function getPoolConfig() {
   };
 }
 
+/** Хеш пароля для БД (SHA-256). В seed.sql хранится хеш, не сам пароль. */
 function hashPassword(password) {
   return crypto.createHash('sha256').update(String(password)).digest('hex');
 }
@@ -40,6 +47,7 @@ async function runSqlFile(filePath) {
   await getPool().query(sql);
 }
 
+/** При первом запуске: создать таблицы и загрузить seed.sql, если БД пустая */
 async function initDatabase() {
   const p = getPool();
   const { rows } = await p.query(
@@ -57,6 +65,7 @@ async function initDatabase() {
   }
 }
 
+/** После правки seed.sql на экзамене: npm run db:reset — пересоздать всё заново */
 async function resetDatabase() {
   const p = getPool();
   await p.query('DROP SCHEMA public CASCADE');

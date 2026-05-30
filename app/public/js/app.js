@@ -1,3 +1,8 @@
+/**
+ * Интерфейс в браузере (экраны: вход, каталог, заказы…).
+ * На экзамене обычно НЕ правят — данные приходят с сервера из PostgreSQL.
+ * Слоган на входе можно поменять (поиск: «Природа в вашем доме»).
+ */
 const TYPE_LABELS = { seed: 'Семена', seedling: 'Рассада', plant: 'Растение', bulb: 'Луковица' };
 const STATUS_LABELS = {
   new: 'Новый',
@@ -26,14 +31,18 @@ function role() {
   return state.user?.role_name || null;
 }
 
+// ——— Права по ролям (как в оценочном листе) ———
+/** Поиск и фильтры в каталоге — только менеджер и администратор */
 function canFilter() {
   return role() === 'manager' || role() === 'admin';
 }
 
+/** Раздел «Заказы» — только менеджер и администратор */
 function canOrders() {
   return role() === 'manager' || role() === 'admin';
 }
 
+/** CRUD товаров и заказов — только администратор */
 function isAdmin() {
   return role() === 'admin';
 }

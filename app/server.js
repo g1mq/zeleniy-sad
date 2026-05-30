@@ -1,4 +1,9 @@
+/**
+ * Сервер приложения (блок 3 экзамена).
+ * Логику ролей и API не меняют на экзамене — данные в database/seed.sql.
+ */
 const path = require('path');
+// Важно: .env загружается ДО config.js, иначе неверный пароль PostgreSQL
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 const express = require('express');
 const session = require('express-session');
@@ -17,13 +22,15 @@ app.use(
     cookie: { maxAge: 8 * 60 * 60 * 1000 },
   })
 );
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'))); // HTML, CSS, JS, logo.png
 
+/** Текущая роль: guest | client | manager | admin */
 function getSessionRole(req) {
   if (!req.session.user) return 'guest';
   return req.session.user.role_name;
 }
 
+/** Middleware: доступ только указанным ролям (иначе 403) */
 function requireRole(...allowed) {
   return (req, res, next) => {
     const role = getSessionRole(req);
@@ -144,7 +151,7 @@ app.get(
   })
 );
 
-// ——— Products ———
+// ——— Каталог товаров (фильтры только manager/admin) ———
 app.get(
   '/api/products',
   asyncRoute(async (req, res) => {
@@ -325,7 +332,7 @@ function validateProduct(b) {
   return null;
 }
 
-// ——— Orders ———
+// ——— Заказы (просмотр manager/admin; CRUD только admin) ———
 app.get(
   '/api/orders',
   requireRole('manager', 'admin'),

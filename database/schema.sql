@@ -1,12 +1,16 @@
 -- Информационная система ООО «Зелёный Сад»
 -- PostgreSQL, 3NF
+-- На экзамене меняют РЕДКО — только если в ТЗ другие поля/таблицы.
+-- Обычно правят database/seed.sql (данные), не этот файл.
 
+-- ========== roles — роли (guest, client, manager, admin) ==========
 CREATE TABLE IF NOT EXISTS roles (
     id SERIAL PRIMARY KEY,
     role_name VARCHAR(20) NOT NULL UNIQUE
         CHECK (role_name IN ('guest', 'client', 'manager', 'admin'))
 );
 
+-- ========== users — логины и хеши паролей ==========
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     login VARCHAR(50) NOT NULL UNIQUE,
@@ -17,6 +21,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- ========== growing_conditions — справочник условий выращивания ==========
 CREATE TABLE IF NOT EXISTS growing_conditions (
     id SERIAL PRIMARY KEY,
     climate_zone VARCHAR(50) NOT NULL,
@@ -25,6 +30,7 @@ CREATE TABLE IF NOT EXISTS growing_conditions (
     watering VARCHAR(30) NOT NULL
 );
 
+-- ========== products — товары (растения, семена) ==========
 CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
     article VARCHAR(30) NOT NULL UNIQUE,
@@ -41,12 +47,14 @@ CREATE TABLE IF NOT EXISTS products (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- ========== product_condition_link — связь товар ↔ условия (N:M) ==========
 CREATE TABLE IF NOT EXISTS product_condition_link (
     product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     condition_id INTEGER NOT NULL REFERENCES growing_conditions(id) ON DELETE CASCADE,
     PRIMARY KEY (product_id, condition_id)
 );
 
+-- ========== orders — заказы клиентов ==========
 CREATE TABLE IF NOT EXISTS orders (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL REFERENCES users(id),
@@ -59,6 +67,7 @@ CREATE TABLE IF NOT EXISTS orders (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- ========== order_items — позиции в заказе ==========
 CREATE TABLE IF NOT EXISTS order_items (
     id SERIAL PRIMARY KEY,
     order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,

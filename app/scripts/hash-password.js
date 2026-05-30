@@ -1,6 +1,11 @@
 /**
  * Считает SHA-256 для пароля (для вставки в seed.sql).
- * Запуск: node scripts/hash-password.js "ВашПароль"
+ *
+ * Запуск из папки app:
+ *   node scripts/hash-password.js "ПарольИзТЗ"
+ *
+ * Скопируйте вывод в поле password_hash в database/seed.sql,
+ * затем: npm run db:reset
  */
 const crypto = require('crypto');
 const pwd = process.argv[2];
