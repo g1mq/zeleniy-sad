@@ -45,22 +45,45 @@ npm install
 
 ---
 
-## Способ 3 — Git в командной строке
+## Способ 3 — Git в командной строке (рекомендуется)
 
-1. Установите: https://git-scm.com/download/win
-2. В PowerShell:
+Git уже установлен, локальный репозиторий и коммит созданы.
+
+### Шаг 1 — войти в GitHub (один раз)
+
+Откройте **PowerShell** или **Git Bash** и выполните:
+
+```powershell
+gh auth login
+```
+
+Выберите:
+- **GitHub.com**
+- **HTTPS**
+- **Login with a web browser** — скопируйте код, откроется браузер, войдите в аккаунт
+
+### Шаг 2 — создать репозиторий и залить проект
 
 ```powershell
 cd "c:\Users\yusup\Desktop\Новая папка\ZeleniySad"
-git init
-git add .
-git commit -m "Initial commit: demo exam IS Zeleniy Sad"
-git branch -M main
+gh repo create zeleniy-sad --private --source=. --remote=origin --push
+```
+
+Имя `zeleniy-sad` можно заменить на своё. Флаг `--private` — только вы видите; для `git clone` без логина используйте `--public`.
+
+### Альтернатива (если репозиторий уже создан на сайте)
+
+1. На github.com → **New repository** → имя `zeleniy-sad` → **Create** (без README).
+2. В терминале:
+
+```powershell
+cd "c:\Users\yusup\Desktop\Новая папка\ZeleniySad"
 git remote add origin https://github.com/ВАШ_ЛОГИН/zeleniy-sad.git
 git push -u origin main
 ```
 
-Репозиторий на GitHub создайте заранее (пустой, без README).
+При запросе пароля используйте **Personal Access Token** (не пароль от GitHub):  
+Settings → Developer settings → Personal access tokens → Generate new token.
 
 ---
 
